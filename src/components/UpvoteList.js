@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import Upvote from "./Upvote";
 
 const UpvotesList = () => {
-  const [isSelected, setIsSelected] = useState(() => {
+  const initialSelectedState = useMemo(() => {
     const savedState = localStorage.getItem("isSelected");
     return savedState ? JSON.parse(savedState) : false;
-  });
-  const [upvotes, setUpvotes] = useState(() => {
+  }, []);
+
+  const initialUpvotes = useMemo(() => {
     const savedUpvotes = localStorage.getItem("upvotes");
     return savedUpvotes ? JSON.parse(savedUpvotes) : [false];
-  });
+  }, []);
+
+  const [isSelected, setIsSelected] = useState(initialSelectedState);
+  const [upvotes, setUpvotes] = useState(initialUpvotes);
 
   useEffect(() => {
     localStorage.setItem("isSelected", JSON.stringify(isSelected));
